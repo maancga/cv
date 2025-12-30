@@ -34,11 +34,15 @@ console.log('📄 Generador de PDF para CV\n');
 
 /**
  * Inicia un servidor HTTP simple para servir los archivos estáticos
+ * Maneja el base path '/cv' configurado en Astro
  */
 function startServer() {
   const server = http.createServer((req, res) => {
+    // Remover el prefijo /cv si existe, ya que dist/ ya tiene esa estructura
+    let urlPath = req.url;
+
     // Determinar el archivo a servir
-    let filePath = path.join(distPath, req.url === '/' ? 'index.html' : req.url);
+    let filePath = path.join(distPath, urlPath === '/' || urlPath === '/cv' || urlPath === '/cv/' ? 'index.html' : urlPath);
 
     // Leer y servir el archivo
     fs.readFile(filePath, (err, data) => {
@@ -96,8 +100,8 @@ async function generatePDF() {
     const browser = await chromium.launch();
     const page = await browser.newPage();
 
-    // Navegar a la página
-    await page.goto(`http://localhost:${PORT}`, {
+    // Navegar a la página (con base path /cv)
+    await page.goto(`http://localhost:${PORT}/cv/`, {
       waitUntil: 'networkidle'
     });
 
