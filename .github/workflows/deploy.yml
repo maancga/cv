@@ -1,0 +1,68 @@
+name: Deploy CV to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: # Permite ejecutarlo manualmente
+
+# Permisos necesarios para GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Solo permite un deployment a la vez
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      # 1. Checkout del código
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Configurar Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      # 3. Instalar dependencias
+      - name: Install dependencies
+        run: npm ci
+
+      # 4. Build del sitio Astro
+      - name: Build Astro site
+        run: npm run build
+
+      # 5. Instalar Playwright browsers
+      - name: Install Playwright browsers
+        run: npx playwright install chromium --with-deps
+
+      # 6. Generar PDF
+      - name: Generate PDF
+        run: npm run pdf
+
+      # 7. Copiar PDF al directorio de build
+      - name: Copy PDF to dist
+        run: cp cv.pdf dist/cv.pdf
+
+      # 8. Subir artifact para Pages
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+      # 9. Deploy a GitHub Pages
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
