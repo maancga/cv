@@ -38,11 +38,18 @@ console.log('📄 Generador de PDF para CV\n');
  */
 function startServer() {
   const server = http.createServer((req, res) => {
-    // Remover el prefijo /cv si existe, ya que dist/ ya tiene esa estructura
+    // Remover el prefijo /cv/ de la URL ya que dist/ no incluye ese subdirectorio
     let urlPath = req.url;
 
+    // Si la URL empieza con /cv/, quitarla
+    if (urlPath.startsWith('/cv/')) {
+      urlPath = urlPath.substring(3); // Quita '/cv'
+    } else if (urlPath === '/cv') {
+      urlPath = '/';
+    }
+
     // Determinar el archivo a servir
-    let filePath = path.join(distPath, urlPath === '/' || urlPath === '/cv' || urlPath === '/cv/' ? 'index.html' : urlPath);
+    let filePath = path.join(distPath, urlPath === '/' ? 'index.html' : urlPath);
 
     // Leer y servir el archivo
     fs.readFile(filePath, (err, data) => {
