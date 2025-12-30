@@ -1,0 +1,61 @@
+name: Generate CV PDF
+
+# Se ejecuta en cada push a main
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: # Permite ejecutarlo manualmente desde GitHub
+
+jobs:
+  build-and-generate-pdf:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write # Necesario para crear releases
+
+    steps:
+      # 1. Checkout del código
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Configurar Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      # 3. Instalar dependencias
+      - name: Install dependencies
+        run: npm ci
+
+      # 4. Instalar Playwright browsers
+      - name: Install Playwright browsers
+        run: npx playwright install chromium --with-deps
+
+      # 5. Generar PDF
+      - name: Generate PDF
+        run: npm run pdf
+
+      # 6. Subir PDF como artifact (para descarga manual)
+      - name: Upload PDF as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cv-pdf
+          path: cv.pdf
+          retention-days: 90
+
+      # 7. Crear/actualizar release con el PDF
+      - name: Create/Update Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Obtener fecha actual para versión
+          VERSION="v$(date +'%Y.%m.%d-%H%M')"
+
+          # Crear release usando gh CLI
+          gh release create "$VERSION" cv.pdf \
+            --title "CV - $VERSION" \
+            --notes "PDF generado automáticamente el $(date +'%Y-%m-%d %H:%M:%S UTC')" \
+            --latest || \
+          gh release upload latest cv.pdf --clobber
