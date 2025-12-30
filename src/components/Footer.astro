@@ -1,0 +1,36 @@
+---
+interface Language {
+  name: string;
+  level: string;
+}
+
+interface Props {
+  education: {
+    degree: string;
+    school: string;
+    period: string;
+  };
+  languages: Language[];
+}
+
+const { education, languages } = Astro.props;
+---
+
+<footer class="footer">
+  <div>
+    <h3 class="footer-section-title">Education</h3>
+    <div class="education-item">{education.degree}</div>
+    <div class="education-school">{education.school} · {education.period}</div>
+  </div>
+  <div>
+    <h3 class="footer-section-title">Languages</h3>
+    <div class="languages">
+      {languages.map((lang) => (
+        <div class="language">
+          <span class="language-name">{lang.name}</span>
+          <span class="language-level">{lang.level}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</footer>

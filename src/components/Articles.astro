@@ -1,0 +1,30 @@
+---
+interface Article {
+  title: string;
+  url: string;
+  description: string;
+  source: string;
+}
+
+interface Props {
+  title: string;
+  articles: Article[];
+}
+
+const { title, articles } = Astro.props;
+---
+
+<section class="section">
+  <h2 class="section-title">{title}</h2>
+  <div class="articles">
+    {articles.map((article) => (
+      <div class="article">
+        <div class="article-title">
+          <a href={article.url} target="_blank">{article.title}</a>
+        </div>
+        <div class="article-desc">{article.description}</div>
+        <div class="article-source">{article.source}</div>
+      </div>
+    ))}
+  </div>
+</section>

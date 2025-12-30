@@ -1,16 +1,269 @@
 ---
+// Importa el layout y todos los componentes
+import CVLayout from '../layouts/CVLayout.astro';
+import Header from '../components/Header.astro';
+import Skills from '../components/Skills.astro';
+import Experience from '../components/Experience.astro';
+import SideProjects from '../components/SideProjects.astro';
+import Articles from '../components/Articles.astro';
+import Footer from '../components/Footer.astro';
 
+// ============================================
+// DATOS - Aquí defines toda tu información
+// ============================================
+
+// Datos del header
+const headerData = {
+  name: "Manuel Andrés Carrera Galafate",
+  role: "Backend Engineer",
+  yearsOfExperience: "4+ years",
+  email: "maancga@gmail.com",
+  phone: "+34 660 08 52 02",
+  linkedin: "linkedin.com/in/maancga",
+  github: "github.com/AcidManu",
+  location: "Spain · Remote",
+  photoUrl: "/img.png"
+};
+
+// Summary
+const summary = "Backend Engineer with expertise in designing and building systems using Domain-Driven Design, clean architecture, and test-driven development. Specialized in modeling complex business domains, defining clear boundaries, and ensuring long-term maintainability. Experience across distributed systems, cloud-native architectures, and enterprise environments.";
+
+// Technical Skills
+const technicalSkills = {
+  title: "Technical Skills",
+  categories: [
+    {
+      label: "Languages",
+      skills: [
+        { name: "TypeScript", highlight: true },
+        { name: "Java" },
+        { name: "Python" },
+        { name: "C++" }
+      ]
+    },
+    {
+      label: "Backend",
+      skills: [
+        { name: "Node.js", highlight: true },
+        { name: "NestJS", highlight: true },
+        { name: "REST" },
+        { name: "gRPC" }
+      ]
+    },
+    {
+      label: "Architecture",
+      skills: [
+        { name: "DDD", highlight: true },
+        { name: "Clean Architecture", highlight: true },
+        { name: "Hexagonal" },
+        { name: "CQRS" },
+        { name: "Microservices" },
+        { name: "Event-Driven" }
+      ]
+    },
+    {
+      label: "Cloud",
+      skills: [
+        { name: "AWS", highlight: true },
+        { name: "Docker" },
+        { name: "Kubernetes" },
+        { name: "OpenShift" }
+      ]
+    },
+    {
+      label: "Databases",
+      skills: [
+        { name: "PostgreSQL", highlight: true },
+        { name: "MongoDB" }
+      ]
+    },
+    {
+      label: "Observability",
+      skills: [
+        { name: "Grafana" },
+        { name: "Loki" }
+      ]
+    }
+  ]
+};
+
+// Ways of Working
+const waysOfWorking = {
+  title: "Ways of Working",
+  categories: [
+    {
+      label: "Testing",
+      skills: [
+        { name: "TDD", highlight: true },
+        { name: "Outside-In" },
+        { name: "Unit" },
+        { name: "Integration" },
+        { name: "E2E" }
+      ]
+    },
+    {
+      label: "Methodology",
+      skills: [
+        { name: "Agile", highlight: true },
+        { name: "Scrum" },
+        { name: "Pair Programming" }
+      ]
+    }
+  ]
+};
+
+// Experience
+const experience = {
+  title: "Experience",
+  items: [
+    {
+      companyName: "Acid Tango",
+      period: "Feb 2022 — Present",
+      role: "Backend Engineer · Consulting",
+      projects: [
+        {
+          name: "Inditex — Logistics & Operations",
+          period: "Nov 2025 — Present",
+          description: "Backend engineer on enterprise logistics systems. Led migrations from on-premise to OpenShift-based infrastructure. Incident management and production support in 24/7 environment. On-call rotation one week/month handling critical incidents.",
+          tags: ["Java", "OpenShift", "Grafana", "On-call"]
+        },
+        {
+          name: "Neuromify — Mental Health Platforms",
+          period: "Jul 2025 — Oct 2025",
+          description: "Backend engineer for two mental health products: Neuromify (stress reduction program) and Psicodeportes (platform for health professionals to manage appointments and patient follow-ups). Developed user management, scheduling workflows and business logic.",
+          tags: ["NestJS", "TypeScript", "PostgreSQL"]
+        },
+        {
+          name: "Affinity Petcare — Sales Web Manual",
+          period: "Apr 2025 — Jul 2025",
+          description: "Backend developer for web-based sales manual platform. Designed and implemented ETL processes to synchronize data from PIM (Akeneo) into CMS. Ensured data consistency, transformation and automated synchronization pipelines.",
+          tags: ["Node.js", "ETL", "Akeneo"]
+        },
+        {
+          name: "Rabbit — Retail & Supply Chain",
+          period: "Jul 2024 — Mar 2025",
+          description: "Backend developer for large-scale retail supply platform serving small local stores across Mexico. Designed microservices within AWS infrastructure. Implemented serverless components using Lambda and event-driven architectures.",
+          tags: ["TypeScript", "AWS Lambda", "Microservices", "Event-Driven"]
+        },
+        {
+          name: "Acciona — Global Education Platform",
+          period: "2024 — Jun 2024",
+          description: "Backend lead for global education platform with 15k+ users worldwide. Modeled courses and enrollment workflows with multi-step approval processes. Built ETL pipelines with asynchronous updates. Integrated webhooks for Algolia AI-powered search.",
+          tags: ["Lead", "NestJS", "ETL", "Algolia"]
+        },
+        {
+          name: "Joyerías Te Quiero — Trading Backoffice",
+          period: "2022 — 2024",
+          description: "Backend developer for gold and silver trading backoffice. Modeled sales, purchases and booking operations with full transaction traceability (CQRS and event-driven patterns). Designed accounting reports (CSV, PDF, Excel). Implemented CSV import pipelines, RBAC and automated CRON jobs.",
+          tags: ["NestJS", "CQRS", "PostgreSQL", "MongoDB"]
+        }
+      ]
+    }
+  ]
+};
+
+// Previous Experience
+const previousExperience = {
+  title: "Previous Experience",
+  items: [
+    {
+      companyName: "Codebay Innovation",
+      period: "Mar 2021 — Feb 2022",
+      role: "Full Stack Developer · CMS Experts",
+      projects: [
+        {
+          name: "Italian National Lottery (SuperEnalotto)",
+          period: "2021 — 2022",
+          description: "Backend development with Java on Adobe Experience Manager (AEM) for the Italian National Lottery. Introduced automated testing practices where none existed before.",
+          tags: ["Java", "AEM", "Selenium"]
+        },
+        {
+          name: "Internal Tools",
+          period: "2021",
+          description: "Developed internal web scraping tool that added value across multiple company projects. Introduced frontend test automation using Selenium.",
+          tags: ["Web Scraping", "Selenium", "Automation"]
+        }
+      ]
+    }
+  ]
+};
+
+// Side Projects
+const sideProjects = {
+  title: "Side Projects",
+  projects: [
+    {
+      name: "Pokémon Card Bot",
+      description: "Bot that scrapes Pokémon card data and publishes updates to Discord. Initially prototyped in n8n, later rebuilt as a custom TypeScript service. Features web scraping with Puppeteer, automated cronjobs, and Docker deployment with automated tests.",
+      tags: ["TypeScript", "Discord API", "Docker", "Puppeteer", "Cron"]
+    },
+    {
+      name: "Envite Card Game",
+      description: "Multiplayer card-based video game built in Godot with backend-driven architecture. Core game logic handled via RPC calls with servers hosted on AWS. Assets generated with ChatGPT. Playable on itch.io.",
+      tags: ["Godot", "RPC", "AWS", "Multiplayer", "itch.io"]
+    }
+  ]
+};
+
+// Articles
+const articles = {
+  title: "Articles & Publications",
+  articles: [
+    {
+      title: "CQRS and Read/Write Models",
+      url: "https://acidtango.com/thelemoncrunch/what-are-read-and-write-models-cqrs-and-why-you-should-be-using-them/",
+      description: "Explains CQRS pattern for separating read and write logic in software architecture. Covers how to improve maintainability, security and performance by using specific models for each use case.",
+      source: "Acid Tango Blog"
+    },
+    {
+      title: "Pull Requests like a Google Engineer",
+      url: "https://acidtango.com/thelemoncrunch/how-pull-request-google-engineer/",
+      description: "Six principles for effective code reviews based on Google practices. Covers mentor mindset, prioritizing technical facts, quality comments, and balancing rigor with team empathy.",
+      source: "Acid Tango Blog"
+    }
+  ]
+};
+
+// Footer data
+const footerData = {
+  education: {
+    degree: "Computer Engineering (CS Major)",
+    school: "Universidad de La Laguna",
+    period: "2017 — 2021"
+  },
+  languages: [
+    { name: "Spanish", level: "Native" },
+    { name: "English", level: "Professional" }
+  ]
+};
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<CVLayout title="Manuel Andrés Carrera Galafate - Backend Engineer">
+  <!-- Header -->
+  <Header {...headerData} />
+
+  <!-- Summary -->
+  <p class="summary">{summary}</p>
+
+  <!-- Skills -->
+  <Skills {...technicalSkills} />
+  <Skills {...waysOfWorking} />
+
+  <!-- Experience -->
+  <Experience {...experience} />
+
+  <!-- Page Break for PDF -->
+  <div class="page-break"></div>
+
+  <!-- Previous Experience -->
+  <Experience {...previousExperience} />
+
+  <!-- Side Projects -->
+  <SideProjects {...sideProjects} />
+
+  <!-- Articles -->
+  <Articles {...articles} />
+
+  <!-- Footer -->
+  <Footer {...footerData} />
+</CVLayout>

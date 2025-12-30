@@ -1,43 +1,108 @@
-# Astro Starter Kit: Minimal
+# CV - Manuel Andrés Carrera Galafate
 
-```sh
-npm create astro@latest -- --template minimal
+CV profesional construido con **Astro** y arquitectura de componentes reutilizables.
+
+## 🚀 Comandos
+
+```bash
+# Instalar dependencias
+npm install
+
+# Servidor de desarrollo (hot reload)
+npm run dev
+
+# Construir para producción
+npm run build
+
+# Generar PDF automáticamente
+npm run pdf
+
+# Preview de la build de producción
+npm run preview
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## 📁 Estructura del proyecto
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
+```
+cv-astro/
 ├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+│   ├── components/          # Componentes reutilizables
+│   │   ├── Header.astro     # Foto, nombre, contacto
+│   │   ├── Skills.astro     # Habilidades técnicas
+│   │   ├── Experience.astro # Experiencia laboral
+│   │   ├── SideProjects.astro
+│   │   ├── Articles.astro
+│   │   └── Footer.astro     # Educación y lenguajes
+│   ├── layouts/
+│   │   └── CVLayout.astro   # Layout base (HTML, head, fonts)
+│   ├── pages/
+│   │   └── index.astro      # Página principal con todos los datos
+│   ├── styles/
+│   │   └── global.css       # Estilos globales (colores, tipografía)
+│   └── public/
+│       └── img.png          # Foto de perfil
+├── scripts/
+│   └── generate-pdf.mjs     # Script para generar PDF con Playwright
+├── dist/                    # Build de producción (generado)
+└── cv.pdf                   # PDF generado automáticamente
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## 🎨 Cómo actualizar tu CV
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+1. **Edita los datos** en `src/pages/index.astro`:
+   - Información personal (header)
+   - Habilidades técnicas
+   - Experiencia laboral
+   - Proyectos personales
+   - Artículos
 
-Any static assets, like images, can be placed in the `public/` directory.
+2. **Cambia la foto** reemplazando `public/img.png`
 
-## 🧞 Commands
+3. **Modifica estilos** en `src/styles/global.css`:
+   - Colores en `:root`
+   - Fuentes
+   - Espaciados
 
-All commands are run from the root of the project, from a terminal:
+## 📄 Generación de PDF
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+El comando `npm run pdf`:
+1. Construye el proyecto (`npm run build`)
+2. Inicia un servidor local
+3. Usa Playwright para generar PDF con formato A4
+4. Cierra el servidor automáticamente
 
-## 👀 Want to learn more?
+El PDF generado se guarda en `cv.pdf` en la raíz del proyecto.
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## 🧩 Componentes
+
+Cada componente es reutilizable y acepta datos como props:
+
+```astro
+<!-- Ejemplo: Usar el componente Header -->
+<Header
+  name="Tu nombre"
+  role="Tu rol"
+  email="tu@email.com"
+  ...
+/>
+```
+
+## 🛠️ Tecnologías
+
+- **Astro**: Framework para sitios estáticos
+- **TypeScript**: Tipado estático
+- **Playwright**: Generación de PDF
+- **Google Fonts**: DM Sans + JetBrains Mono
+
+## 📝 Notas
+
+- Los estilos están optimizados para impresión (formato A4)
+- El diseño es responsive pero optimizado para PDF
+- Las fuentes se cargan desde Google Fonts (asegúrate de tener conexión para el desarrollo)
+- El PDF mantiene los colores exactos gracias a `print-color-adjust: exact`
+
+## 🔗 Enlaces útiles
+
+- [Documentación de Astro](https://docs.astro.build)
+- [Playwright](https://playwright.dev)
+- [TypeScript](https://www.typescriptlang.org)

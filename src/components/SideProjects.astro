@@ -1,0 +1,31 @@
+---
+interface SideProject {
+  name: string;
+  description: string;
+  tags: string[];
+}
+
+interface Props {
+  title: string;
+  projects: SideProject[];
+}
+
+const { title, projects } = Astro.props;
+---
+
+<section class="section">
+  <h2 class="section-title">{title}</h2>
+  <div class="side-projects">
+    {projects.map((project) => (
+      <div class="side-project">
+        <div class="side-project-name">{project.name}</div>
+        <div class="side-project-desc">{project.description}</div>
+        <div class="side-project-tags">
+          {project.tags.map((tag) => (
+            <span class="side-project-tag">{tag}</span>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+</section>

@@ -1,0 +1,54 @@
+---
+
+interface Project {
+  name: string;
+  period: string;
+  description: string;
+  tags: string[];
+}
+
+interface ExperienceItem {
+  companyName: string;
+  period: string;
+  role: string;
+  projects: Project[];
+}
+
+interface Props {
+  title: string;
+  items: ExperienceItem[];
+}
+
+const { title, items } = Astro.props;
+---
+
+<section class="section">
+  <h2 class="section-title">{title}</h2>
+
+  {items.map((item) => (
+    <div class="experience-item">
+      <div class="company-header">
+        <span class="company-name">{item.companyName}</span>
+        <span class="company-period">{item.period}</span>
+      </div>
+      <div class="company-role">{item.role}</div>
+
+      <div class="projects">
+        {item.projects.map((project) => (
+          <div class="project">
+            <div class="project-header">
+              <span class="project-name">{project.name}</span>
+              <span class="project-period">{project.period}</span>
+            </div>
+            <p class="project-desc">{project.description}</p>
+            <div class="project-tags">
+              {project.tags.map((tag) => (
+                <span class="project-tag">{tag}</span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  ))}
+</section>
